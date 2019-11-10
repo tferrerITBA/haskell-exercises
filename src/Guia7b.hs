@@ -1,17 +1,5 @@
-module Guia7
+module Guia7b
     (
-        Ingrediente(..),
-        Pizza(..),
-        cantidadDeCapas,
-        cantidadDeAceitunas,
-        duplicarAceitunas,
-        sinLactosa,
-        aptaTolerantesLactosa,
-        agregaAceitunasCorrectamente,
-        conDescripcionMejorada,
-        conDescripcionMejoradaWrapper,
-        tiene,
-        p1, p2, p3, p4, p5, p_invalida,
         Planilla(..),
         Equipo(..),
         largoDePlanilla,
@@ -20,7 +8,7 @@ module Guia7
         nivelesJerarquicos,
         cantidadDeIntegrantes,
         planillaDeIntegrantes,
-        pl1, pl2, pl3, pl4, pll1, pll2, pll3, be1, be2, be3, be4, be5, e1, e2
+        pl1, pl2, pl3, pl4, pll1, pll2, pll3, be1, be2, be3, be4, be5, e1, e2,
     ) where
 
 data ExpA = Cte Int | Sum ExpA ExpA | Mult ExpA ExpA
