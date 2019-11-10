@@ -11,7 +11,16 @@ module Guia7
         conDescripcionMejorada,
         conDescripcionMejoradaWrapper,
         tiene,
-        p1, p2, p3, p4, p5, p_invalida
+        p1, p2, p3, p4, p5, p_invalida,
+        Planilla(..),
+        Equipo(..),
+        largoDePlanilla,
+        esta,
+        juntarPlanillas,
+        nivelesJerarquicos,
+        cantidadDeIntegrantes,
+        planillaDeIntegrantes,
+        pl1, pl2, pl3, pl4, pll1, pll2, pll3, be1, be2, be3, be4, be5, e1, e2
     ) where
 
 data ExpA = Cte Int | Sum ExpA ExpA | Mult ExpA ExpA
@@ -79,3 +88,49 @@ p3 = Capa Queso p2
 p4 = Capa (Aceitunas 4) p3
 p5 = Capa (Aceitunas 4) p4
 p_invalida = Capa (Aceitunas (-5)) Prepizza
+
+type Nombre = String
+data Planilla = Fin | Registro Nombre Planilla deriving(Show)
+data Equipo = Becario Nombre | Investigador Nombre Equipo Equipo Equipo deriving(Show)
+
+largoDePlanilla :: Planilla -> Int
+largoDePlanilla Fin = 0
+largoDePlanilla (Registro n p) = 1 + largoDePlanilla p
+
+esta :: Nombre -> Planilla -> Bool
+esta n Fin = False
+esta n (Registro m p) = n == m || esta n p
+
+juntarPlanillas :: Planilla -> Planilla -> Planilla
+juntarPlanillas Fin p = p
+juntarPlanillas (Registro n1 p1) p2 = Registro n1 (juntarPlanillas p1 p2)
+
+nivelesJerarquicos :: Equipo -> Int
+nivelesJerarquicos (Becario n) = 0
+nivelesJerarquicos (Investigador n e1 e2 e3) = 1 + max (nivelesJerarquicos e1) (max (nivelesJerarquicos e2) (nivelesJerarquicos e3))
+
+cantidadDeIntegrantes :: Equipo -> Int
+cantidadDeIntegrantes (Becario n) = 1
+cantidadDeIntegrantes (Investigador n e1 e2 e3) = 1 + cantidadDeIntegrantes e1 + cantidadDeIntegrantes e2 + cantidadDeIntegrantes e3
+
+planillaDeIntegrantes :: Equipo -> Planilla
+planillaDeIntegrantes (Becario n) = Registro n Fin
+planillaDeIntegrantes (Investigador n e1 e2 e3) = Registro n (juntarPlanillas (planillaDeIntegrantes e1) (juntarPlanillas (planillaDeIntegrantes e2) (planillaDeIntegrantes e3)))
+
+pl1 = Fin
+pl2 = Registro "Juan" pl1
+pl3 = Registro "Marcos" pl2
+pl4 = Registro "Palito" pl3
+
+pll1 = Fin
+pll2 = Registro "Guido" pll1
+pll3 = Registro "Tomas" pll2
+
+be1 = Becario "Marcos"
+be2 = Becario "Guido"
+be3 = Becario "Tomas"
+be4 = Becario "Pablo"
+be5 = Becario "Pedro"
+
+e1 = Investigador "Palito" be1 be2 be3
+e2 = Investigador "Tato" be4 be5 e1
