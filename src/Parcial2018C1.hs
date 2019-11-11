@@ -9,6 +9,7 @@ module Parcial2018C1
         objectsOfLongestPath,
         allPaths,
         foldM,
+        objectsFold,
         c1, c2, c3, b1, b2, b3
     ) where
 
@@ -56,10 +57,10 @@ allPaths (Cofre _) = [[]]
 allPaths (Nada m) = map (append [Straight]) (allPaths m)
 allPaths (Bifurcacion _ m1 m2) = append (map (append [Parcial2018C1.Left]) (allPaths m1)) (map (append [Parcial2018C1.Right]) (allPaths m2))
 
-foldM :: ([a] -> b) -> (Mapa a -> b) -> ([a] -> Mapa a -> Mapa a -> b) -> Mapa a -> b
+foldM :: ([a] -> b) -> (b -> b) -> ([a] -> b -> b -> b) -> Mapa a -> b
 foldM f g h (Cofre a) = f a
-foldM f g h (Nada m) = g m
-foldM f g h (Bifurcacion a m1 m2) = h a m1 m2
+foldM f g h (Nada m) = g (foldM f g h m)
+foldM f g h (Bifurcacion a m1 m2) = h a (foldM f g h m1) (foldM f g h m2)
 
 -- recM :: b -> () -> Mapa a -> b
 
