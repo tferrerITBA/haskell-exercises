@@ -10,6 +10,7 @@ module Parcial2018C1
         allPaths,
         foldM,
         objectsFold,
+        mapMapaFold,
         c1, c2, c3, b1, b2, b3
     ) where
 
@@ -65,6 +66,7 @@ foldM f g h (Bifurcacion a m1 m2) = h a (foldM f g h m1) (foldM f g h m2)
 -- recM :: b -> () -> Mapa a -> b
 
 objectsFold = foldM (\x -> x) (\ans -> ans) (\x ans1 ans2 -> append x (append ans1 ans2))
+mapMapaFold f = foldM (\x -> Cofre (map f x)) (\ans -> Nada (ans)) (\x ans1 ans2 -> Bifurcacion (map f x) ans1 ans2)
 
 c1 = Cofre [1, 2, 3]
 c2 = Cofre [5]
