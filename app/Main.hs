@@ -12,5 +12,7 @@ import Guia7c
 import Guia8a
 import Guia8b
 
+import Parcial2018C1
+
 main :: IO ()
 main = someFunc
