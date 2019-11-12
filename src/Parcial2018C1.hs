@@ -9,8 +9,11 @@ module Parcial2018C1
         objectsOfLongestPath,
         allPaths,
         foldM,
+        recM,
         objectsFold,
         mapMapaFold,
+        --hasObjectAtFold,
+        objectsOfLongestPathRec,
         c1, c2, c3, b1, b2, b3
     ) where
 
@@ -63,10 +66,15 @@ foldM f g h (Cofre a) = f a
 foldM f g h (Nada m) = g (foldM f g h m)
 foldM f g h (Bifurcacion a m1 m2) = h a (foldM f g h m1) (foldM f g h m2)
 
--- recM :: b -> () -> Mapa a -> b
+recM :: ([a] -> b) -> (b -> Mapa a -> b) -> ([a] -> b -> b -> Mapa a -> Mapa a -> b) -> Mapa a -> b
+recM c n b (Cofre as) = c as
+recM c n b (Nada m) = n (recM c n b m) m
+recM c n b (Bifurcacion as m1 m2) = b as (recM c n b m1) (recM c n b m2) m1 m2
 
 objectsFold = foldM (\x -> x) (\ans -> ans) (\x ans1 ans2 -> append x (append ans1 ans2))
 mapMapaFold f = foldM (\x -> Cofre (map f x)) (\ans -> Nada (ans)) (\x ans1 ans2 -> Bifurcacion (map f x) ans1 ans2)
+--hasObjectAtRec f m dirs = recM (\a -> length (filter f a) > 0) (\ans m -> ans) (\x ans1 ans2 m1 m2 -> )
+objectsOfLongestPathRec = recM (\a -> a) (\ans m -> ans) (\x ans1 ans2 m1 m2 -> let (l1, l2) = (longestPath m1, longestPath m2) in if length(l1) >= length(l2) then append x ans1 else append x ans2)
 
 c1 = Cofre [1, 2, 3]
 c2 = Cofre [5]
