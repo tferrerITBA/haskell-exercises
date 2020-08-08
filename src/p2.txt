@@ -1,0 +1,65 @@
+-- FUNC - P2 (Nueva)
+
+-- 1)
+-- a.
+:t first (x,y) = x -- (a,b) -> a
+-- b.
+:t apply f = g where g x = f x -- (a -> b) -> (a -> b) -- (apply first devuelve una funcion que no se imprime)
+-- c.
+:t twice f = g where g x = f (f x) -- (a -> a) -> (a -> a)
+-- d.
+:t doble x = x + x -- (Num -> Num)
+-- e.
+:t swap (x,y) = (y,x) -- (a,b) -> (b,a)
+-- f.
+:t uflip f = g where g p = f (swap p) --  ((b,a) -> t) -> (a,b) -> t
+
+2)
+-- a.
+:t apply first -- (a,b) -> a
+-- b.
+:t first (swap,uflip) -- (a,b) -> (b,a)
+-- c.
+:t twice doble -- (Num -> Num) -- doble doble
+-- d.
+:t twice twice -- (a->a) -> (a->a)
+-- e.
+:t twice uflip -- ((b,b) -> t) -> (b,b) -> t
+-- f.
+:t twice swap -- (a,a) -> (a,a)
+-- g.
+:t uflip swap -- (a,b) -> (a,b)
+-- h.
+:t (twice twice) swap -- (a,a) -> (a,a)
+
+-- 3)
+-- a.
+:t const x = g where g y = x -- p1 -> p2 -> p1 -- ; const 1(twice) devuelve 1; const 1 devuelve la funcion que dado un y devuelve 1
+-- b.
+:t appDup f = g where g x = f (x,x) -- ((a,a) -> t) -> a -> t
+-- c.
+:t appFork (f, g) = h where h x = (f x, g x) -- ((a -> b), (a -> c)) -> a -> (b,c)
+-- d.
+:t appPar (f, g) = h where h (x,y) = (f x, g y) -- ((a -> b), (c -> d)) -> (a, c) -> (b, d)
+-- e.
+:t appDist f = g where g (x, y) = (f x, f y) -- (a -> b) -> (a, a) -> (b, b)
+-- f.
+:t flip f = h where h x = k where k y = (f y) x -- (t1 -> (t2 -> t3)) -> (t2 -> (t1 -> t3))
+-- g.
+:t subst f = h where h g = k where k x = (f x)(g x) -- HACER
+
+-- 4)
+-- a.
+:t (1 && 2 == 2) -- no tiene tipo; no compila porque 1 no es Bool
+-- b.
+:t (1 + if 3 < 5 then 3 else 5) -- tiene tipo Int
+-- c.
+-- :t  -- HACER
+-- d.
+:t (doble doble) 5 -- tiene tipo Int
+-- e.
+:t doble (doble 5) -- no tiene tipo; no compila parece
+-- f.
+:t twice first -- no tiene tipo;
+-- g.
+:t (twice doble) doble -- 
